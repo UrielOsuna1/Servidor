@@ -145,3 +145,37 @@ p.lead {
   color: white;
   font-weight: 700;
 }
+
+/* === Estilos para el formulario del login === */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 12px;
+}
+
+.form label {
+  font-size: .95rem;
+  color: #374151;
+  font-weight: 600;
+}
+
+.form input {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  font-size: 1rem;
+  transition: 0.2s ease;
+}
+
+.form input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px #c4b5fd60;
+}
+
+.footer {
+  margin-top: 22px;
+  text-align: left;
+}
+

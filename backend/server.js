@@ -1,43 +1,74 @@
 const express = require("express");
-const mysql = require("mysql");
+const sql = require("mssql");
 const cors = require("cors");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-// CONEXIÓN A MYSQL
-const db = mysql.createConnection({
-  host: "localhost", 
-  user: "root",
-  password: "",
-  database: "seguridad_bd"
-});
-
-db.connect(err => {
-  if (err) throw err;
-  console.log("Base de datos conectada");
-});
-
-// ENDPOINT LOGIN
-app.post("/login", (req, res) => {
-  const { usuario, password } = req.body;
-
-  db.query(
-    "SELECT * FROM usuarios WHERE usuario = ? AND password = ?",
-    [usuario, password],
-    (err, results) => {
-      if (err) return res.status(500).json({ ok: false, error: err });
-
-      if (results.length > 0) {
-        res.json({ ok: true, mensaje: "Bienvenido" });
-      } else {
-        res.json({ ok: false, mensaje: "Usuario o contraseña incorrectos" });
-      }
+// Configuración de SQL Server
+const config = {
+    user: "sa",               // TU USUARIO
+    password: "12345",        // TU CONTRASEÑA
+    server: "localhost",      // TU SERVIDOR
+    database: "SistemaUsuarios",
+    options: {
+        trustServerCertificate: true
     }
-  );
+};
+
+// ==================== REGISTRO ====================
+app.post("/registro", async (req, res) => {
+    try {
+        const { nombre, hash } = req.body;
+
+        let pool = await sql.connect(config);
+
+        await pool.request()
+            .input("Nombre", sql.NVarChar(50), nombre)
+            .input("Contraseña", sql.NVarChar(255), hash)
+            .query(`
+                INSERT INTO Registro (Nombre, Contraseña)
+                VALUES (@Nombre, @Contraseña)
+            `);
+
+        res.json({ ok: true, mensaje: "Registro exitoso" });
+
+    } catch (err) {
+        console.log(err);
+        res.json({ ok: false, mensaje: "Error en el servidor" });
+    }
 });
 
+// ==================== LOGIN ====================
+app.post("/login", async (req, res) => {
+    try {
+        const { usuario, hash } = req.body;
+
+        let pool = await sql.connect(config);
+
+        let result = await pool.request()
+            .input("Nombre", sql.NVarChar(50), usuario)
+            .input("Contraseña", sql.NVarChar(255), hash)
+            .query(`
+                SELECT * 
+                FROM Registro
+                WHERE Nombre = @Nombre AND Contraseña = @Contraseña
+            `);
+
+        if (result.recordset.length > 0) {
+            res.json({ ok: true, mensaje: "Login correcto" });
+        } else {
+            res.json({ ok: false, mensaje: "Usuario o contraseña incorrectos" });
+        }
+
+    } catch (err) {
+        console.log(err);
+        res.json({ ok: false, mensaje: "Error en el servidor" });
+    }
+});
+
+// ================== INICIAR SERVIDOR ==================
 app.listen(3000, () => {
-  console.log("Servidor corriendo en http://localhost:3000");
+    console.log("Servidor funcionando en http://localhost:3000");
 });
