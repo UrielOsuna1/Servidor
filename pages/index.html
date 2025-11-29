@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Página de Bienvenida</title>
+  <link rel="stylesheet" href="../scripts.js">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <main class="card" role="main">
+    <section>
+      <div style="display:flex;gap:12px;align-items:center;margin-bottom:18px">
+        <div class="logo">Ui</div>
+        <div>
+          <div style="font-size:.95rem;font-weight:700">Bienvenido</div>
+          <div style="font-size:.85rem;color:var(--muted)">Página de bienvenida simple</div>
+        </div>
+      </div>
+
+      <h1>¡Hola <span id="displayName">invitado</span>! <span class="sparkles">✨</span></h1>
+      <p class="lead">Esta es una página de bienvenida minimalista y responsiva. Puedes personalizar el nombre, los colores o añadir tu logo.</p>
+
+      <div class="actions">
+        <button class="btn btn-primary" id="btnName">Personalizar nombre</button>
+        <button class="btn btn-ghost" id="btnReset">Restablecer</button>
+      </div>
+
+      <p class="footer">Consejo: haz clic en "Personalizar nombre" para que la página muestre tu nombre.</p>
+    </section>
+
+    <aside class="side illustration" aria-hidden="true">
+      <div class="emoji">👋</div>
+      <div class="welcome-name">¡Bienvenido a tu espacio!</div>
+      <div class="small">Diseño limpio, accesible y listo para integrarse en cualquier proyecto.</div>
+    </aside>
+  </main>
+</body>
+</html>
