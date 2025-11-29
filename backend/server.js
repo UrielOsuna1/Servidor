@@ -10,7 +10,7 @@ app.use(express.json());
 const config = {
     user: "sa",               // TU USUARIO
     password: "12345",        // TU CONTRASEÑA
-    server: "localhost",      // TU SERVIDOR
+    server: "LAP-URI\SQLEXPRESS",      // TU SERVIDOR
     database: "SistemaUsuarios",
     options: {
         trustServerCertificate: true
