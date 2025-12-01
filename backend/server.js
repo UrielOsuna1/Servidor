@@ -1,16 +1,20 @@
 const express = require("express");
 const sql = require("mssql");
 const cors = require("cors");
+const path = require("path");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Configuración de SQL Server
+// ==================== SERVIR ARCHIVOS DEL FRONTEND ====================
+app.use(express.static(path.join(__dirname, "public")));
+
+// ==================== CONFIGURACIÓN DE SQL SERVER =====================
 const config = {
-    user: "sa",               // TU USUARIO
-    password: "12345",        // TU CONTRASEÑA
-    server: "LAP-URI\SQLEXPRESS",      // TU SERVIDOR
+    user: "sa",
+    password: "12345678",
+    server: "LAP-URI\\SQLEXPRESS",   // Asegura el Doble Backslash
     database: "SistemaUsuarios",
     options: {
         trustServerCertificate: true

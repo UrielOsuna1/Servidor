@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>Registro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="card">
+
+    <!-- Lado del formulario -->
+    <div>
+      <h1>Crear cuenta</h1>
+      <p class="lead">Regístrate para continuar</p>
+
+      <form id="formRegistro" class="form">
+
+        <label>Nombre:</label>
+        <input type="text" id="nombre" required>
+
+        <label>Contraseña:</label>
+        <input type="password" id="password" required minlength="8">
+
+        <label>Confirmar contraseña:</label>
+        <input type="password" id="confirm" required minlength="8">
+
+        <div class="actions">
+          <button type="submit" class="btn btn-primary">Registrar</button>
+          <button type="reset" class="btn btn-ghost">Limpiar</button>
+        </div>
+
+      </form>
+
+      <p class="footer">Al registrarte aceptas los términos y condiciones.</p>
+      <div id="resultado"></div>
+    </div>
+
+    <!-- Lado ilustración -->
+    <div class="side">
+      <div class="illustration">
+        <div class="emoji sparkles">✨</div>
+        <p class="welcome-name">Bienvenido</p>
+        <p class="small">Tu información estará segura 🔒</p>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="scripts.js" defer></script>
+
+</body>
+</html>
