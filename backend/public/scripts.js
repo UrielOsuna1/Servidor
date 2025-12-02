@@ -34,7 +34,7 @@ if (formRegistro) {
 
     const hash = await hashSHA256(password);
 
-    const respuesta = await fetch("http://localhost:3000/registro", {
+    const respuesta = await fetch("https://servidorosuna.ngrok.pro/registro", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ nombre, hash })
@@ -61,7 +61,7 @@ if (formRegistro) {
   // Acción del botón "Ir al Login"
   const btnIrLogin = document.getElementById("btnIrLogin");
   btnIrLogin.addEventListener("click", () => {
-    window.location.href = "login.html";
+    window.location.href = "index.html";
   });
 }
 
@@ -80,7 +80,7 @@ if (formLogin) {
     const hash = await hashSHA256(password);
 
     try {
-      const respuesta = await fetch("http://localhost:3000/login", {
+      const respuesta = await fetch("https://servidorosuna.ngrok.pro/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ usuario, hash })
@@ -92,7 +92,7 @@ if (formLogin) {
       const resultDiv = document.getElementById("resultado");
       if (data.ok) {
         // LOGIN CORRECTO → redirige inmediatamente
-        window.location.href = "index.html";
+        window.location.href = "home.html";
         return;
       } else {
         // LOGIN INCORRECTO → muestra mensaje (si existe el contenedor)
