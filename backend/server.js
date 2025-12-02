@@ -14,12 +14,15 @@ app.use(express.static(path.join(__dirname, "public")));
 const config = {
     user: "sa",
     password: "12345678",
-    server: "LAP-URI\\SQLEXPRESS",   // Asegura el Doble Backslash
+    server: "localhost",    // ← NO uses LAP-URI\SQLEXPRESS
     database: "SistemaUsuarios",
+    port: 1433,
     options: {
-        trustServerCertificate: true
+        trustServerCertificate: true,
+        encrypt: false
     }
 };
+
 
 // ==================== REGISTRO ====================
 app.post("/registro", async (req, res) => {
@@ -47,6 +50,9 @@ app.post("/registro", async (req, res) => {
 // ==================== LOGIN ====================
 app.post("/login", async (req, res) => {
     try {
+        
+        console.log("POST /login body:", req.body);
+
         const { usuario, hash } = req.body;
 
         let pool = await sql.connect(config);

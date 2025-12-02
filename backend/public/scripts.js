@@ -34,7 +34,6 @@ if (formRegistro) {
 
     const hash = await hashSHA256(password);
 
-    // Enviar al backend
     const respuesta = await fetch("http://localhost:3000/registro", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -44,10 +43,25 @@ if (formRegistro) {
     const data = await respuesta.json();
 
     const resultDiv = document.getElementById("resultado");
+    const btnIrLogin = document.getElementById("btnIrLogin");
+
     resultDiv.style.display = "block";
     resultDiv.innerHTML = data.mensaje;
 
+    if (data.ok) {
+      // Mostrar botón para ir al login
+      btnIrLogin.style.display = "inline-block";
+    } else {
+      btnIrLogin.style.display = "none";
+    }
+
     formRegistro.reset();
+  });
+
+  // Acción del botón "Ir al Login"
+  const btnIrLogin = document.getElementById("btnIrLogin");
+  btnIrLogin.addEventListener("click", () => {
+    window.location.href = "login.html";
   });
 }
 
@@ -60,32 +74,48 @@ if (formLogin) {
   formLogin.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const usuario = document.getElementById("usuario").value;
+    const usuario = document.getElementById("usuario").value.trim();
     const password = document.getElementById("password").value;
 
     const hash = await hashSHA256(password);
 
-    // Enviar al backend
-    const respuesta = await fetch("http://localhost:3000/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ usuario, hash })
-    });
+    try {
+      const respuesta = await fetch("http://localhost:3000/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ usuario, hash })
+      });
 
-    const data = await respuesta.json();
+      // si el backend devuelve error HTTP, aún lo leemos
+      const data = await respuesta.json();
 
-    const resultDiv = document.getElementById("resultado");
-    resultDiv.style.display = "block";
-    resultDiv.innerHTML = data.mensaje;
-
-    // Redirigir si el login es correcto
-    if (data.ok) {
-      window.location.href = "index.html";
+      const resultDiv = document.getElementById("resultado");
+      if (data.ok) {
+        // LOGIN CORRECTO → redirige inmediatamente
+        window.location.href = "index.html";
+        return;
+      } else {
+        // LOGIN INCORRECTO → muestra mensaje (si existe el contenedor)
+        if (resultDiv) {
+          resultDiv.style.display = "block";
+          resultDiv.innerHTML = "<span style='color:red'>Usuario o contraseña incorrectos</span>";
+        } else {
+          alert("Usuario o contraseña incorrectos");
+        }
+      }
+    } catch (err) {
+      console.error("Error comunicándose con el servidor:", err);
+      const resultDiv = document.getElementById("resultado");
+      if (resultDiv) {
+        resultDiv.style.display = "block";
+        resultDiv.innerHTML = "<span style='color:red'>Error de conexión con el servidor</span>";
+      } else {
+        alert("Error de conexión con el servidor");
+      }
     }
-
-    formLogin.reset();
   });
 }
+
 
 /* ===========================
    SISTEMA DE NOMBRE (PANTALLA HOME)
