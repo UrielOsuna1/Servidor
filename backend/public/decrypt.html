@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Desencriptar Texto</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<div class="card">
+
+  <!-- IZQUIERDA -->
+  <div>
+    <h1>Desencriptar Texto 🔓</h1>
+    <p class="lead">Pega el criptograma y proporciona la contraseña correcta.</p>
+
+    <div class="form">
+      <label>Contraseña</label>
+      <input type="password" id="pwd" placeholder="Contraseña usada para encriptar">
+
+      <label>Criptograma (Base64)</label>
+      <textarea id="cipher" rows="5" style="
+        padding:12px; border:1px solid #e5e7eb;
+        border-radius:10px; resize:vertical; font-size:1rem;">
+      </textarea>
+
+      <button class="btn btn-primary" id="btnDecrypt">Desencriptar</button>
+    </div>
+
+    <div class="form" style="margin-top:20px;">
+      <label>Resultado</label>
+      <textarea id="plaintext" readonly rows="5" style="
+        padding:12px; border:1px solid #e5e7eb;
+        border-radius:10px; resize:vertical; font-size:1rem;">
+      </textarea>
+    </div>
+
+    <p class="footer small">Si la contraseña es incorrecta, no se podrá recuperar el mensaje.</p>
+  </div>
+
+  <!-- DERECHA -->
+  <div class="side">
+    <div class="illustration">
+      <div class="emoji">🧩</div>
+      <p class="welcome-name">Descifrando…</p>
+      <p class="small">Verificación AES-GCM</p>
+    </div>
+  </div>
+
+</div>
+
+<script src="crypto.js"></script>
+<script>
+document.getElementById("btnDecrypt").onclick = async () => {
+  const pwd = document.getElementById("pwd").value.trim();
+  const cipher = document.getElementById("cipher").value.trim();
+
+  if (!pwd || !cipher) return alert("Completa los campos.");
+
+  try {
+    const text = await decryptCiphertext(cipher, pwd);
+    document.getElementById("plaintext").value = text;
+  } catch (err) {
+    alert("Contraseña incorrecta o criptograma inválido.");
+  }
+};
+</script>
+
+</body>
+</html>

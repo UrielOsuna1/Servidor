@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Encriptar Texto</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<div class="card">
+
+  <!-- IZQUIERDA -->
+  <div>
+    <h1>Encriptar Texto 🔒</h1>
+    <p class="lead">Ingresa un texto y una contraseña para generar un criptograma seguro.</p>
+
+    <div class="form">
+      <label>Contraseña para encriptar</label>
+      <input type="password" id="pwd" placeholder="Escribe una contraseña segura">
+
+      <label>Texto a encriptar</label>
+      <textarea id="plaintext" rows="5" style="
+        padding:12px; border:1px solid #e5e7eb; 
+        border-radius:10px; resize:vertical; font-size:1rem;">
+      </textarea>
+
+      <button class="btn btn-primary" id="btnEncrypt">Encriptar</button>
+    </div>
+
+    <div class="form" style="margin-top:20px;">
+      <label>Criptograma generado</label>
+      <textarea id="cipher" readonly rows="5" style="
+        padding:12px; border:1px solid #e5e7eb;
+        border-radius:10px; resize:vertical; font-size:1rem;">
+      </textarea>
+    </div>
+
+    <p class="footer small">
+      Guarda tu criptograma y tu contraseña. Sin la contraseña no se podrá recuperar el texto.
+    </p>
+
+  </div>
+
+  <!-- DERECHA -->
+  <div class="side">
+    <div class="illustration">
+      <div class="emoji">🔑</div>
+      <p class="welcome-name">AES-256</p>
+      <p class="small">Cifrado seguro basado en tu contraseña</p>
+    </div>
+  </div>
+
+</div>
+
+<script src="crypto.js"></script>
+<script>
+document.getElementById("btnEncrypt").onclick = async () => {
+  const pwd = document.getElementById("pwd").value.trim();
+  const text = document.getElementById("plaintext").value.trim();
+
+  if (!pwd || !text) return alert("Completa los campos.");
+
+  const cipher = await encryptText(text, pwd);
+  document.getElementById("cipher").value = cipher;
+};
+</script>
+
+</body>
+</html>
